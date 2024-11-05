@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script type="module" src="dimensions.js"></script>
+    <title>Document</title>
+
+</head>
+<body>
+
+    <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/>
+    <script>
+
+import Chart from 'chart.js/auto'
+import { getDimensions } from './api'
+
+(async function() {
+  const data = await getDimensions();
+
+  new Chart(
+    document.getElementById('dimensions'),
+    {
+      type: 'bubble',
+      options: {
+        aspectRatio: 1,
+      },
+
+      data: {
+        labels: data.map(x => x.year),
+        datasets: [
+          {
+            label: 'Dimensions',
+            data: data.map(row => ({
+              x: row.width,
+              y: row.height,
+              r: row.count
+            }))
+          }
+        ]
+      }
+    }
+  );
+})();
+
+        
+    </script>
+
+
+</body>
+</html>
