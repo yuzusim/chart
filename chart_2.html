@@ -3,47 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script type="module" src="dimensions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+ 
     <title>Document</title>
 
 </head>
+<style>
+  canvas#myChart.chartjs-size-monitor{_width: 60% !important;}
+  canvas.chartjs-render-monitor{width:80% !important;}
+
+</style>
 <body>
 
-    <div style="width: 500px;"><canvas id="dimensions"></canvas></div><br/>
+  <canvas id="myChart"></canvas>
     <script>
 
-import Chart from 'chart.js/auto'
-import { getDimensions } from './api'
+var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
 
-(async function() {
-  const data = await getDimensions();
+    // The data for our dataset
+    data: {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 10, 5, 2, 20, 30, 45]
+        }]
+    },
 
-  new Chart(
-    document.getElementById('dimensions'),
-    {
-      type: 'bubble',
-      options: {
-        aspectRatio: 1,
-      },
-
-      data: {
-        labels: data.map(x => x.year),
-        datasets: [
-          {
-            label: 'Dimensions',
-            data: data.map(row => ({
-              x: row.width,
-              y: row.height,
-              r: row.count
-            }))
-          }
-        ]
-      }
-    }
-  );
-})();
+    // Configuration options go here
+    options: {}
+});
 
         
     </script>
